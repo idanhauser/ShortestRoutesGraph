@@ -1,9 +1,9 @@
-﻿#include "ListGraph.h"
+﻿#include "AdjacencyList.h"
 
-namespace alg {
+namespace srg {
 
 
-	void ListGraph::destroy()
+	void AdjacencyList::destroy()
 	{
 		delete[] _vertices;
 		_vertices = nullptr;
@@ -11,7 +11,7 @@ namespace alg {
 	}
 
 
-	ListGraph::ListGraph(int size) : Graph(size), _vertices(nullptr)
+	AdjacencyList::AdjacencyList(int size) : Graph(size), _vertices(nullptr)
 	{
 		if (size > 0)
 		{
@@ -24,12 +24,12 @@ namespace alg {
 		}
 	}
 
-	ListGraph::ListGraph(const ListGraph& other) : ListGraph(0)
+	AdjacencyList::AdjacencyList(const AdjacencyList& other) : AdjacencyList(0)
 	{
 		*this = other;
 	}
 
-	ListGraph& ListGraph::operator=(const ListGraph& other)
+	AdjacencyList& AdjacencyList::operator=(const AdjacencyList& other)
 	{
 		if (this != &other)
 		{
@@ -43,23 +43,25 @@ namespace alg {
 				_vertices = new Pair<int, List<Pair<int, float>>>[other._length];
 
 				for (int i = 0; i < other._length; i++)
+				{
 					_vertices[i] = other._vertices[i];
+				}
 			}
 		}
 
 		return *this;
 	}
 
-	ListGraph ListGraph::make_empty_graph(int n)
+	AdjacencyList AdjacencyList::MakeEmptyGraph(int n)
 	{
-		return ListGraph(n);
+		return AdjacencyList(n);
 	}
 
 
-	bool ListGraph::is_adjacent(int u, int v) const
+	bool AdjacencyList::IsAdjacent(int u, int v) const
 	{
 		bool found = false;
-		auto& adjacents = get_adjacent(u);
+		auto& adjacents = GetAdjList(u);
 
 		for (auto itr = adjacents.begin(); itr != adjacents.end() && !found; ++itr)
 			if (itr->get_first() == v)
@@ -69,14 +71,14 @@ namespace alg {
 	}
 
 
-	List<Pair<int, float>> ListGraph::get_adjacent(int u)
+	 List<Pair<int, float>> AdjacencyList::GetAdjList(int u)
 	{
 		// will create a new List because of return type
 		return get_adjacent_by_ref(u);
 	}
 
 
-	const List<Pair<int, float>> ListGraph::get_adjacent(int u) const
+	const List<Pair<int, float>> AdjacencyList::GetAdjList(int u) const
 	{
 		if (!check_bounds(u))
 			throw std::logic_error("out of bounds - ListGraph");
@@ -85,7 +87,7 @@ namespace alg {
 	}
 
 
-	List<Pair<int, float>>& ListGraph::get_adjacent_by_ref(int u)
+	List<Pair<int, float>>& AdjacencyList::get_adjacent_by_ref(int u)
 	{
 		if (!check_bounds(u))
 			throw std::logic_error("out of bounds - ListGraph");
@@ -94,14 +96,14 @@ namespace alg {
 	}
 
 
-	void ListGraph::add_edge(int u, int v, float c)
+	void AdjacencyList::AddEdge(int u, int v, float weight)
 	{
-		if (!is_adjacent(u, v))
-			get_adjacent_by_ref(u).insert_to_tail(Pair<int, float>(v, c));
+		if (!IsAdjacent(u, v))
+			get_adjacent_by_ref(u).insert_to_tail(Pair<int, float>(v, weight));
 	}
 
 
-	void ListGraph::remove_edge(int u, int v)
+	void AdjacencyList::RemoveEdge(int u, int v)
 	{
 		auto& adjacents = get_adjacent_by_ref(u);
 
@@ -116,14 +118,14 @@ namespace alg {
 	}
 
 
-	void ListGraph::make_empty()
+	void AdjacencyList::makeEmpty()
 	{
 		for (int i = 0; i < _length; i++)
 			_vertices[i].get_second().make_empty();
 	}
 
 
-	void ListGraph::print() const
+	void AdjacencyList::PrintGraph() const
 	{
 		for (int i = 0; i < _length; ++i)
 			std::cout << _vertices[i].get_first() << ": " << _vertices[i].get_second() << std::endl;

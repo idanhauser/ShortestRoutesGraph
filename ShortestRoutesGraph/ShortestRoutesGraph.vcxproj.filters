@@ -21,7 +21,7 @@
     <ClCompile Include="Graph.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ListGraph.cpp">
+    <ClCompile Include="AdjacencyList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -35,7 +35,7 @@
     <ClInclude Include="Pair.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ListGraph.h">
+    <ClInclude Include="AdjacencyList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

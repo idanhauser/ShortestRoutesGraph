@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <iostream>
 
-namespace alg {
+namespace srg {
 
 	template<typename first, typename second>
 	class Pair {								// really simple template class to hold 2 variables together
