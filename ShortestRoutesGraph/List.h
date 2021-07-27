@@ -373,6 +373,12 @@ namespace alg {
 
 			return os;
 		}
+
+		T& front() const
+		{
+			return _head;
+		}
+		
 	};
 
 }

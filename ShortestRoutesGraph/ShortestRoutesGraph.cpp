@@ -5,8 +5,21 @@
 
 int main()
 {
-    std::cout << "Hello World!\n";
+	//run bfs on G from s
+
+	//if !(d[v] = d[u] + 1) ===>>>  delete edge (u,v)
+
+	//built G transpose
+
+	//run bfs on G transpose when the source vertice is t. delete every edge u cant get to from t.
+	//graph result is called H transpose
+
+	//build from H transpose graph H
+
+
+	std::cout << "Hello World!\n";
 }
+
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu

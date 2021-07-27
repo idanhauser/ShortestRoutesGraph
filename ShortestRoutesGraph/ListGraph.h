@@ -31,5 +31,9 @@ namespace alg {
 		void make_empty() override;
 
 		void print() const;
+
+
+
+		void BFS(int s);
 	};
 }

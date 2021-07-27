@@ -129,4 +129,52 @@ namespace alg {
 			std::cout << _vertices[i].get_first() << ": " << _vertices[i].get_second() << std::endl;
 	}
 
+
+	void ListGraph::BFS(int s)
+	{
+		// Mark all the vertices as not visited
+		int V = get_length();
+		bool* visited = new bool[V];
+		for (int i = 0; i < V; i++)
+			visited[i] = false;
+
+		// Create a queue for BFS
+		List<int> queue;
+
+		// Mark the current node as visited and enqueue it
+		visited[s] = true;
+		queue.insert_to_tail(s);
+
+		// 'i' will be used to get all adjacent
+		// vertices of a vertex
+		List<int>::iterator i();
+		while (!queue.is_empty())
+		{
+			// Dequeue a vertex from queue 
+			s = queue.front();
+
+			queue.delete_head();
+			auto& adjacents = get_adjacent_by_ref(s);
+			// Get all adjacent vertices of the dequeued
+			// vertex s. If a adjacent has not been visited,
+			// then mark it visited and enqueue it
+			for (auto i = adjacents.begin(); i != adjacents.end(); ++i)
+			{
+				int adjVertex = i->get_first();
+				if (!visited[adjVertex])
+				{
+					visited[adjVertex] = true;
+					queue.insert_to_tail(adjVertex);
+				}
+			}
+		}
+	}
+
+
+
+
+
+
+
+	
 }
