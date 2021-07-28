@@ -6,7 +6,8 @@
 #include "AdjacencyList.h"
 using namespace srg;
 using namespace std;
- /*void ReadGraph(AdjacencyList& g)
+ /*moved to adjacencyList.cpp due to instructions
+  void ReadGraph(AdjacencyList& g)
 {
 	 int v, u;
 	 int input;
@@ -53,7 +54,9 @@ int main()
 	//2.if !(d[v] = d[u] + 1) ===>>>  delete edge (u,v) 
 	for (int u = 1; u <= g_adjacencies.get_length(); u++)
 	{
-		for (auto j = g_adjacencies.get_adjacent_by_ref(u).begin(); j != g_adjacencies.get_adjacent_by_ref(u).end(); ++j)
+		auto& adjacents = g_adjacencies.get_adjacent_by_ref(u);
+		//todo - fix: after deleting last edge/adjacent from list, j continues to next one (making an error)
+		for (auto j = adjacents.begin();	j != adjacents.end(); ++j)
 		{
 			int v = j->get_first();
 			if (g_adjacencies.IsAdjacent(u, v)) {
@@ -93,7 +96,6 @@ int main()
 	GTranspose.transpose(&graph_H);
 	
 	
-	std::cout << "Hello World!\n";
 
 
 
