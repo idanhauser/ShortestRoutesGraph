@@ -1,5 +1,5 @@
 ﻿#include "AdjacencyList.h"
-
+using namespace std;
 namespace srg {
 
 
@@ -20,7 +20,7 @@ namespace srg {
 
 			//init vertices numbers
 			for (int i = 0; i < size; i++)
-				_vertices[i].get_first() = i;
+				_vertices[i].get_first() = i + 1;
 		}
 	}
 
@@ -134,33 +134,33 @@ namespace srg {
 
 	void AdjacencyList::transpose(AdjacencyList* transposedGraph)
 	{
-		for (int i = 0; i < this->get_length(); i++)
-			for (auto j = this->GetAdjList(i).begin(); j != this->GetAdjList(i).end(); ++j)
+		for (int i = 1; i <= this->get_length(); i++)
+			for (auto j = this->get_adjacent_by_ref(i).begin(); j != this->get_adjacent_by_ref(i).end(); ++j)
 			{
-				transposedGraph->AddEdge(i, j->get_first(), -1);
+				transposedGraph->AddEdge(j->get_first(), i, -1);
 			}
 	}
 
 
 
-	int* AdjacencyList::BFS(Pair<int, List<Pair<int, float>>> s)
+	int* AdjacencyList::BFS(int s)
 	{
 		//AdjacencyList sGraph(s.get_first());
 		int V = this->get_length();
-		Pair<int, List<Pair<int, float>>>* p = new Pair<int, List<Pair<int, float>>>[V];
+		int* p = new int[V];
 		int* d = new int[V]; //distances arr
 		// Mark all the vertices as not visited
 		for (int i = 0; i < V; i++)
 		{
 			d[i] = -1; //-1 used to initiate
-			p[i] = Pair<int, List<Pair<int, float>>>(-1, List<Pair<int, float>>());
+			p[i] = -1;
 		}
 		// Create a queue for BFS
-		List<Pair<int, List<Pair<int, float> > > > queue;
+		List<int> queue;
 		int j = 0; //distance from s
 
 		// Mark the current node as visited and enqueue it
-		d[s.get_first()] = j;
+		d[s-1] = j;
 		queue.insert_to_tail(s);
 
 		// 'i' will be used to get all adjacent
@@ -170,21 +170,21 @@ namespace srg {
 		while (!queue.is_empty())
 		{
 			// Dequeue a vertex from queue 
-			Pair<int, List<Pair<int, float>>> u = queue.get_head()->_item;
+			int u = queue.get_head()->_item;
 
 			queue.delete_head();
-			auto& adjacents = this->get_adjacent_by_ref(u.get_first());
+			auto& adjacents = this->get_adjacent_by_ref(u);
 			// Get all adjacent vertices of the dequeued
 			// vertex s. If a adjacent has not been visited,
 			// then mark it visited and enqueue it
 			for (auto v = adjacents.begin(); v != adjacents.end(); ++v)
 			{
-				Pair<int, List<Pair<int, float >>> adjVertex = this->getVerticByRef(v->get_first());
-				if (d[adjVertex.get_first()] == -1)
+				//Pair<int, List<Pair<int, float >>> adjVertex = this->getVerticByRef(v->get_first());
+				if (d[v->get_first()-1] == -1)
 				{
-					d[adjVertex.get_first()] = j + 1;
-					p[v->get_first()] = u;
-					queue.insert_to_tail(adjVertex);
+					d[v->get_first()-1] = j + 1;
+					p[v->get_first()-1] = u;
+					queue.insert_to_tail(v->get_first());
 				}
 			}
 			j++;
@@ -192,5 +192,19 @@ namespace srg {
 		return d;
 	}
 
-	
+	void AdjacencyList::ReadGraph() 
+	{
+		int v, u;
+		//int input;
+		int weight = 0;
+		
+		while (!cin.eof())
+		{
+			cin >> v;
+			cin >> u;
+			this->AddEdge(v, u, weight);
+		}
+
+
+	}
 }

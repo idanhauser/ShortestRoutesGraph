@@ -6,7 +6,7 @@
 #include "AdjacencyList.h"
 using namespace srg;
 using namespace std;
- void ReadGraph(AdjacencyList& g)
+ /*void ReadGraph(AdjacencyList& g)
 {
 	 int v, u;
 	 int input;
@@ -20,7 +20,7 @@ using namespace std;
 		 cin >> input;
 	 }
 	
-}
+}*/
 
 
 
@@ -35,26 +35,32 @@ int main()
 	cin >> numberOfEdeges >> start >> target;
 
 	g_adjacencies = AdjacencyList(numberOfEdeges);
-	Pair<int, List<Pair<int, float>>> s = g_adjacencies.getVerticByRef(start);
-	//1.run bfs on G from s
 
-	int* d = g_adjacencies.BFS(s);
+	g_adjacencies.ReadGraph();
 
-	if (d[target] == -1)
+ 	//Pair<int, List<Pair<int, float>>> s = g_adjacencies.getVerticByRef(start);
+
+ 	//1.run bfs on G from s
+
+	int* d = g_adjacencies.BFS(start);
+
+	if (d[target-1] == -1)
 	{
 		cout << "Given source and destination"
 			<< " are not connected";
 		return 0;
 	}
-	//2.if !(d[v] = d[u] + 1) ===>>>  delete edge (u,v)
-	for (int u=0; u<g_adjacencies.get_length();u++)
+	//2.if !(d[v] = d[u] + 1) ===>>>  delete edge (u,v) 
+	for (int u = 1; u <= g_adjacencies.get_length(); u++)
 	{
-		for (auto j = g_adjacencies.GetAdjList(u).begin(); j != g_adjacencies.GetAdjList(u).end(); ++j)
+		for (auto j = g_adjacencies.get_adjacent_by_ref(u).begin(); j != g_adjacencies.get_adjacent_by_ref(u).end(); ++j)
 		{
 			int v = j->get_first();
-			if (d[v] != d[g_adjacencies.getVertices()[u].get_first()] + 1)
-			{
-				g_adjacencies.RemoveEdge(u, v);
+			if (g_adjacencies.IsAdjacent(u, v)) {
+				if (d[v - 1] != d[g_adjacencies.getVerticByRef(u).get_first() - 1] + 1)
+				{
+					g_adjacencies.RemoveEdge(u, v);
+				}
 			}
 		}
 	}
@@ -65,11 +71,11 @@ int main()
 	
 	//4.run bfs on G transpose when the source vertice is t. delete every edge u cant get to from t.
 	////todo
-	Pair<int, List<Pair<int, float>>> t = g_adjacencies.getVerticByRef(target);
+	//Pair<int, List<Pair<int, float>>> t = g_adjacencies.getVerticByRef(target);
 
-	d = GTranspose.BFS(t);
+	d = GTranspose.BFS(target);
 
-	for (int u = 0; u < GTranspose.get_length(); u++)
+	for (int u = 1; u <= GTranspose.get_length(); u++)
 	{
 		for (auto j = GTranspose.GetAdjList(u).begin(); j != GTranspose.GetAdjList(u).end(); ++j)
 		{

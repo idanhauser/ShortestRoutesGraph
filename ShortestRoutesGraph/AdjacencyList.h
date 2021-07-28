@@ -30,15 +30,18 @@ namespace srg {
 		void RemoveEdge(int u, int v) override;
 		void makeEmpty() override;
 		void PrintGraph() const;
-
+		void ReadGraph();
 		//get vertices arr:
 		Pair<int, List<Pair<int, float>>>* getVertices() const { return _vertices; } 
 		//get single vertic from vertices arr:
-		Pair<int, List<Pair<int, float >>> getVerticByRef(int num) { return _vertices[num]; } 
+		Pair<int, List<Pair<int, float >>>& getVerticByRef(int num)
+		{
+			return _vertices[num-1];
+		} 
 
 		void transpose(AdjacencyList* transposedGraph);
 
-		int* BFS(Pair<int, List<Pair<int, float>>> s);
+		int* BFS(int s);
 
 	};
 }
