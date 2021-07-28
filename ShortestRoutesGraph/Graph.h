@@ -2,7 +2,7 @@
 #include "List.h"
 #include "Pair.h"
 
-namespace alg {
+namespace srg {
 
 
 	class Graph {								// abstract class, has some basic stuff all graphs need to have
@@ -22,11 +22,11 @@ namespace alg {
 
 		int get_length() const { return _length; }
 
-		virtual bool is_adjacent(int u, int v) const = 0;					// functions every graph needs to impliment
-		virtual List<Pair<int, float>> get_adjacent(int u) = 0;
-		virtual const List<Pair<int, float>> get_adjacent(int u) const = 0;
-		virtual void add_edge(int u, int v, float c) = 0;
-		virtual void remove_edge(int u, int v) = 0;
-		virtual void make_empty() = 0;
+		virtual bool IsAdjacent(int u, int v) const = 0;					// functions every graph needs to impliment
+		virtual List<Pair<int, float>> GetAdjList(int u) = 0;
+		virtual const List<Pair<int, float>> GetAdjList(int u) const = 0;
+		virtual void AddEdge(int u, int v, float c) = 0;
+		virtual void RemoveEdge(int u, int v) = 0;
+		virtual void makeEmpty() = 0;
 	};
 }

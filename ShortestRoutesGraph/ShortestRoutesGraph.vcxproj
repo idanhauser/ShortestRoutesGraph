@@ -140,13 +140,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Graph.cpp" />
-    <ClCompile Include="ListGraph.cpp" />
+    <ClCompile Include="AdjacencyList.cpp" />
     <ClCompile Include="ShortestRoutesGraph.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graph.h" />
     <ClInclude Include="List.h" />
-    <ClInclude Include="ListGraph.h" />
+    <ClInclude Include="AdjacencyList.h" />
     <ClInclude Include="Pair.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

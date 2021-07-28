@@ -3,7 +3,7 @@
 #include <exception>
 #include <stdexcept>
 
-namespace alg {
+namespace srg {
 
 	template<typename T>
 	class List {			// templated list, has iterators too! (although iterators are not working with the std functions...)
@@ -374,7 +374,7 @@ namespace alg {
 			return os;
 		}
 
-		T& front() const
+		node* get_head() const
 		{
 			return _head;
 		}

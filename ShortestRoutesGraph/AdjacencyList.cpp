@@ -1,9 +1,9 @@
-﻿#include "ListGraph.h"
+﻿#include "AdjacencyList.h"
 
-namespace alg {
+namespace srg {
 
 
-	void ListGraph::destroy()
+	void AdjacencyList::destroy()
 	{
 		delete[] _vertices;
 		_vertices = nullptr;
@@ -11,7 +11,7 @@ namespace alg {
 	}
 
 
-	ListGraph::ListGraph(int size) : Graph(size), _vertices(nullptr)
+	AdjacencyList::AdjacencyList(int size) : Graph(size), _vertices(nullptr)
 	{
 		if (size > 0)
 		{
@@ -20,16 +20,16 @@ namespace alg {
 
 			//init vertices numbers
 			for (int i = 0; i < size; i++)
-				_vertices[i].get_first() = i + 1;
+				_vertices[i].get_first() = i;
 		}
 	}
 
-	ListGraph::ListGraph(const ListGraph& other) : ListGraph(0)
+	AdjacencyList::AdjacencyList(const AdjacencyList& other) : AdjacencyList(0)
 	{
 		*this = other;
 	}
 
-	ListGraph& ListGraph::operator=(const ListGraph& other)
+	AdjacencyList& AdjacencyList::operator=(const AdjacencyList& other)
 	{
 		if (this != &other)
 		{
@@ -43,23 +43,25 @@ namespace alg {
 				_vertices = new Pair<int, List<Pair<int, float>>>[other._length];
 
 				for (int i = 0; i < other._length; i++)
+				{
 					_vertices[i] = other._vertices[i];
+				}
 			}
 		}
 
 		return *this;
 	}
 
-	ListGraph ListGraph::make_empty_graph(int n)
+	AdjacencyList AdjacencyList::MakeEmptyGraph(int n)
 	{
-		return ListGraph(n);
+		return AdjacencyList(n);
 	}
 
 
-	bool ListGraph::is_adjacent(int u, int v) const
+	bool AdjacencyList::IsAdjacent(int u, int v) const
 	{
 		bool found = false;
-		auto& adjacents = get_adjacent(u);
+		auto& adjacents = GetAdjList(u);
 
 		for (auto itr = adjacents.begin(); itr != adjacents.end() && !found; ++itr)
 			if (itr->get_first() == v)
@@ -69,14 +71,14 @@ namespace alg {
 	}
 
 
-	List<Pair<int, float>> ListGraph::get_adjacent(int u)
+	 List<Pair<int, float>> AdjacencyList::GetAdjList(int u)
 	{
 		// will create a new List because of return type
 		return get_adjacent_by_ref(u);
 	}
 
 
-	const List<Pair<int, float>> ListGraph::get_adjacent(int u) const
+	const List<Pair<int, float>> AdjacencyList::GetAdjList(int u) const
 	{
 		if (!check_bounds(u))
 			throw std::logic_error("out of bounds - ListGraph");
@@ -85,7 +87,7 @@ namespace alg {
 	}
 
 
-	List<Pair<int, float>>& ListGraph::get_adjacent_by_ref(int u)
+	List<Pair<int, float>>& AdjacencyList::get_adjacent_by_ref(int u)
 	{
 		if (!check_bounds(u))
 			throw std::logic_error("out of bounds - ListGraph");
@@ -94,14 +96,14 @@ namespace alg {
 	}
 
 
-	void ListGraph::add_edge(int u, int v, float c)
+	void AdjacencyList::AddEdge(int u, int v, float weight)
 	{
-		if (!is_adjacent(u, v))
-			get_adjacent_by_ref(u).insert_to_tail(Pair<int, float>(v, c));
+		if (!IsAdjacent(u, v))
+			get_adjacent_by_ref(u).insert_to_tail(Pair<int, float>(v, weight));
 	}
 
 
-	void ListGraph::remove_edge(int u, int v)
+	void AdjacencyList::RemoveEdge(int u, int v)
 	{
 		auto& adjacents = get_adjacent_by_ref(u);
 
@@ -116,65 +118,79 @@ namespace alg {
 	}
 
 
-	void ListGraph::make_empty()
+	void AdjacencyList::makeEmpty()
 	{
 		for (int i = 0; i < _length; i++)
 			_vertices[i].get_second().make_empty();
 	}
 
 
-	void ListGraph::print() const
+	void AdjacencyList::PrintGraph() const
 	{
 		for (int i = 0; i < _length; ++i)
 			std::cout << _vertices[i].get_first() << ": " << _vertices[i].get_second() << std::endl;
 	}
 
 
-	void ListGraph::BFS(int s)
+	void AdjacencyList::transpose(AdjacencyList* transposedGraph)
 	{
-		// Mark all the vertices as not visited
-		int V = get_length();
-		bool* visited = new bool[V];
-		for (int i = 0; i < V; i++)
-			visited[i] = false;
+		for (int i = 0; i < this->get_length(); i++)
+			for (auto j = this->GetAdjList(i).begin(); j != this->GetAdjList(i).end(); ++j)
+			{
+				transposedGraph->AddEdge(i, j->get_first(), -1);
+			}
+	}
 
+
+
+	int* AdjacencyList::BFS(Pair<int, List<Pair<int, float>>> s)
+	{
+		//AdjacencyList sGraph(s.get_first());
+		int V = this->get_length();
+		Pair<int, List<Pair<int, float>>>* p = new Pair<int, List<Pair<int, float>>>[V];
+		int* d = new int[V]; //distances arr
+		// Mark all the vertices as not visited
+		for (int i = 0; i < V; i++)
+		{
+			d[i] = -1; //-1 used to initiate
+			p[i] = Pair<int, List<Pair<int, float>>>(-1, List<Pair<int, float>>());
+		}
 		// Create a queue for BFS
-		List<int> queue;
+		List<Pair<int, List<Pair<int, float> > > > queue;
+		int j = 0; //distance from s
 
 		// Mark the current node as visited and enqueue it
-		visited[s] = true;
+		d[s.get_first()] = j;
 		queue.insert_to_tail(s);
 
 		// 'i' will be used to get all adjacent
 		// vertices of a vertex
 		List<int>::iterator i();
+
 		while (!queue.is_empty())
 		{
 			// Dequeue a vertex from queue 
-			s = queue.front();
+			Pair<int, List<Pair<int, float>>> u = queue.get_head()->_item;
 
 			queue.delete_head();
-			auto& adjacents = get_adjacent_by_ref(s);
+			auto& adjacents = this->get_adjacent_by_ref(u.get_first());
 			// Get all adjacent vertices of the dequeued
 			// vertex s. If a adjacent has not been visited,
 			// then mark it visited and enqueue it
-			for (auto i = adjacents.begin(); i != adjacents.end(); ++i)
+			for (auto v = adjacents.begin(); v != adjacents.end(); ++v)
 			{
-				int adjVertex = i->get_first();
-				if (!visited[adjVertex])
+				Pair<int, List<Pair<int, float >>> adjVertex = this->getVerticByRef(v->get_first());
+				if (d[adjVertex.get_first()] == -1)
 				{
-					visited[adjVertex] = true;
+					d[adjVertex.get_first()] = j + 1;
+					p[v->get_first()] = u;
 					queue.insert_to_tail(adjVertex);
 				}
 			}
+			j++;
 		}
+		return d;
 	}
-
-
-
-
-
-
 
 	
 }

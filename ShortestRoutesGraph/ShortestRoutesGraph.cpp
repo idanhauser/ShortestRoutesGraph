@@ -3,31 +3,94 @@
 
 #include <iostream>
 
-int main()
+#include "AdjacencyList.h"
+using namespace srg;
+using namespace std;
+ void ReadGraph(AdjacencyList& g)
 {
-	//run bfs on G from s
-
-	//if !(d[v] = d[u] + 1) ===>>>  delete edge (u,v)
-
-	//built G transpose
-
-	//run bfs on G transpose when the source vertice is t. delete every edge u cant get to from t.
-	//graph result is called H transpose
-
-	//build from H transpose graph H
-
-
-	std::cout << "Hello World!\n";
+	 int v, u;
+	 int input;
+	 int weight = 0;
+	 cin >> input;
+	 while (input!=-1)
+	 {
+		 v = input;
+		 cin >> u;
+		 g.AddEdge(v, u, weight);
+		 cin >> input;
+	 }
+	
 }
 
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+
+int main()
+{
+    int numberOfEdeges;
+	int start;
+	int target;
+	AdjacencyList g_adjacencies;
+
+	cin >> numberOfEdeges >> start >> target;
+
+	g_adjacencies = AdjacencyList(numberOfEdeges);
+	Pair<int, List<Pair<int, float>>> s = g_adjacencies.getVerticByRef(start);
+	//1.run bfs on G from s
+
+	int* d = g_adjacencies.BFS(s);
+
+	if (d[target] == -1)
+	{
+		cout << "Given source and destination"
+			<< " are not connected";
+		return 0;
+	}
+	//2.if !(d[v] = d[u] + 1) ===>>>  delete edge (u,v)
+	for (int u=0; u<g_adjacencies.get_length();u++)
+	{
+		for (auto j = g_adjacencies.GetAdjList(u).begin(); j != g_adjacencies.GetAdjList(u).end(); ++j)
+		{
+			int v = j->get_first();
+			if (d[v] != d[g_adjacencies.getVertices()[u].get_first()] + 1)
+			{
+				g_adjacencies.RemoveEdge(u, v);
+			}
+		}
+	}
+ 	//3.build G transpose
+	AdjacencyList GTranspose(g_adjacencies.get_length());
+	g_adjacencies.transpose(&GTranspose);
+	
+	
+	//4.run bfs on G transpose when the source vertice is t. delete every edge u cant get to from t.
+	////todo
+	Pair<int, List<Pair<int, float>>> t = g_adjacencies.getVerticByRef(target);
+
+	d = GTranspose.BFS(t);
+
+	for (int u = 0; u < GTranspose.get_length(); u++)
+	{
+		for (auto j = GTranspose.GetAdjList(u).begin(); j != GTranspose.GetAdjList(u).end(); ++j)
+		{
+			int v = j->get_first();
+			if (d[v] != d[GTranspose.getVertices()[u].get_first()] + 1)
+			{
+				GTranspose.RemoveEdge(u, v);
+			}
+		}
+	}
+	//graph result is called H transpose
+	//build from H transpose graph H
+	////todo
+	AdjacencyList graph_H(GTranspose.get_length());
+	GTranspose.transpose(&graph_H);
+	
+	
+	std::cout << "Hello World!\n";
+
+
+
+ 	
+}
+
