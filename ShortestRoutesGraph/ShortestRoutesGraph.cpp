@@ -60,7 +60,7 @@ int main()
 		{
 			int v = j->get_first();
 			//if (g_adjacencies.IsAdjacent(u, v)) {
-				if (d[v - 1] != d[g_adjacencies.getVerticByRef(u).get_first() - 1] + 1)
+				if (d[v - 1] != d[u - 1] + 1)
 				{
 					g_adjacencies.RemoveEdge(u, v);
 				}
@@ -80,12 +80,12 @@ int main()
 
 	for (int u = 1; u <= GTranspose.get_length(); u++)
 	{
-		auto adjacents = g_adjacencies.GetAdjList(u);
+		auto adjacents = GTranspose.GetAdjList(u);
 
 		for (auto j = adjacents.begin(); j != adjacents.end(); ++j)
 		{
 			int v = j->get_first();
-			if (d[v] != d[GTranspose.getVertices()[u].get_first()] + 1)
+			if (d[v-1] != d[u-1] + 1)
 			{
 				GTranspose.RemoveEdge(u, v);
 			}
