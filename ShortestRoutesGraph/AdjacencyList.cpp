@@ -179,7 +179,6 @@ namespace srg {
 			// then mark it visited and enqueue it
 			for (auto v = adjacents.begin(); v != adjacents.end(); ++v)
 			{
-				//Pair<int, List<Pair<int, float >>> adjVertex = this->getVerticByRef(v->get_first());
 				if (d[v->get_first()-1] == -1)
 				{
 					d[v->get_first() - 1] = d[u - 1] + 1;

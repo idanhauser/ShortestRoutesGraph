@@ -1,27 +1,13 @@
 // ShortestRoutesGraph.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
+#include <chrono>
+#include <iomanip>
 #include <iostream>
-
+#include <fstream>
 #include "AdjacencyList.h"
 using namespace srg;
 using namespace std;
- /*moved to adjacencyList.cpp due to instructions
-  void ReadGraph(AdjacencyList& g)
-{
-	 int v, u;
-	 int input;
-	 int weight = 0;
-	 cin >> input;
-	 while (input!=-1)
-	 {
-		 v = input;
-		 cin >> u;
-		 g.AddEdge(v, u, weight);
-		 cin >> input;
-	 }
-	
-}*/
 
 
 
@@ -29,23 +15,25 @@ using namespace std;
 int main()
 {
     int numberOfEdeges;
-	int start;
-	int target;
+	int s;
+	int t;
 	AdjacencyList g_adjacencies;
 
-	cin >> numberOfEdeges >> start >> target;
+	cin >> numberOfEdeges >> s >> t;
 
 	g_adjacencies = AdjacencyList(numberOfEdeges);
 
 	g_adjacencies.ReadGraph();
 
- 	//Pair<int, List<Pair<int, float>>> s = g_adjacencies.getVerticByRef(start);
-
+	auto start = chrono::high_resolution_clock::now();
+	// unsync the I/O of C and C++.
+	ios_base::sync_with_stdio(false);
+	
  	//1.run bfs on G from s
 
-	int* d = g_adjacencies.BFS(start);
+	int* d = g_adjacencies.BFS(s);
 
-	if (d[target-1] == -1)
+	if (d[t-1] == -1)
 	{
 		cout << "Given source and destination"
 			<< " are not connected";
@@ -55,16 +43,13 @@ int main()
 	for (int u = 1; u <= g_adjacencies.get_length(); u++)
 	{
 		auto adjacents = g_adjacencies.GetAdjList(u);
-		//todo - fix: after deleting last edge/adjacent from list, j continues to next one (making an error)	
 		for (auto j = adjacents.begin();	j != adjacents.end(); ++j)
 		{
 			int v = j->get_first();
-			//if (g_adjacencies.IsAdjacent(u, v)) {
 				if (d[v - 1] != d[u - 1] + 1)
 				{
 					g_adjacencies.RemoveEdge(u, v);
 				}
-			//}
 		}
 	}
  	//3.build G transpose
@@ -73,10 +58,8 @@ int main()
 	
 	
 	//4.run bfs on G transpose when the source vertice is t. delete every edge u cant get to from t.
-	////todo
-	//Pair<int, List<Pair<int, float>>> t = g_adjacencies.getVerticByRef(target);
 
-	d = GTranspose.BFS(target);
+	d = GTranspose.BFS(t);
 
 	for (int u = 1; u <= GTranspose.get_length(); u++)
 	{
@@ -93,13 +76,22 @@ int main()
 	}
 	//graph result is called H transpose
 	//build from H transpose graph H
-	////todo
 	AdjacencyList graph_H(GTranspose.get_length());
 	GTranspose.transpose(&graph_H);
 	
 	graph_H.PrintGraph();
 
 
+	auto end = chrono::high_resolution_clock::now();
+	// Calculating total time taken by the program.
+	double time_taken =
+		chrono::duration_cast<chrono::nanoseconds>(end - start).count();
+	time_taken *= 1e-9;
+	ofstream myfile("Measure.txt"); // The name of the file
+	myfile << "Time taken by function <name-of-fun> is : " << fixed
+		<< time_taken << setprecision(9);
+	myfile << " sec" << endl;
+	myfile.close();
 
  	
 }
