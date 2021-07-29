@@ -54,17 +54,17 @@ int main()
 	//2.if !(d[v] = d[u] + 1) ===>>>  delete edge (u,v) 
 	for (int u = 1; u <= g_adjacencies.get_length(); u++)
 	{
-		auto& adjacents = g_adjacencies.get_adjacent_by_ref(u);
+		auto adjacents = g_adjacencies.GetAdjList(u);
 		//todo - fix: after deleting last edge/adjacent from list, j continues to next one (making an error)
 		for (auto j = adjacents.begin();	j != adjacents.end(); ++j)
 		{
 			int v = j->get_first();
-			if (g_adjacencies.IsAdjacent(u, v)) {
+			//if (g_adjacencies.IsAdjacent(u, v)) {
 				if (d[v - 1] != d[g_adjacencies.getVerticByRef(u).get_first() - 1] + 1)
 				{
 					g_adjacencies.RemoveEdge(u, v);
 				}
-			}
+			//}
 		}
 	}
  	//3.build G transpose
@@ -80,7 +80,9 @@ int main()
 
 	for (int u = 1; u <= GTranspose.get_length(); u++)
 	{
-		for (auto j = GTranspose.GetAdjList(u).begin(); j != GTranspose.GetAdjList(u).end(); ++j)
+		auto adjacents = g_adjacencies.GetAdjList(u);
+
+		for (auto j = adjacents.begin(); j != adjacents.end(); ++j)
 		{
 			int v = j->get_first();
 			if (d[v] != d[GTranspose.getVertices()[u].get_first()] + 1)
