@@ -55,7 +55,7 @@ int main()
 	for (int u = 1; u <= g_adjacencies.get_length(); u++)
 	{
 		auto adjacents = g_adjacencies.GetAdjList(u);
-		//todo - fix: after deleting last edge/adjacent from list, j continues to next one (making an error)
+		//todo - fix: after deleting last edge/adjacent from list, j continues to next one (making an error)	
 		for (auto j = adjacents.begin();	j != adjacents.end(); ++j)
 		{
 			int v = j->get_first();
@@ -97,7 +97,7 @@ int main()
 	AdjacencyList graph_H(GTranspose.get_length());
 	GTranspose.transpose(&graph_H);
 	
-	
+	graph_H.PrintGraph();
 
 
 

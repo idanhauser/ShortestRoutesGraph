@@ -173,7 +173,7 @@ namespace srg {
 			int u = queue.get_head()->_item;
 
 			queue.delete_head();
-			auto& adjacents = this->get_adjacent_by_ref(u);
+			auto adjacents = this->GetAdjList(u);
 			// Get all adjacent vertices of the dequeued
 			// vertex s. If a adjacent has not been visited,
 			// then mark it visited and enqueue it
@@ -182,7 +182,7 @@ namespace srg {
 				//Pair<int, List<Pair<int, float >>> adjVertex = this->getVerticByRef(v->get_first());
 				if (d[v->get_first()-1] == -1)
 				{
-					d[v->get_first()-1] = j + 1;
+					d[v->get_first() - 1] = d[u - 1] + 1;
 					p[v->get_first()-1] = u;
 					queue.insert_to_tail(v->get_first());
 				}
