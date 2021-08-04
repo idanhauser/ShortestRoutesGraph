@@ -200,8 +200,22 @@ namespace srg {
 		while (!cin.eof())
 		{
 			cin >> v;
-			cin >> u;
-			this->AddEdge(v, u, weight);
+			if (check_bounds(v))
+			{
+				cin >> u;
+				if (check_bounds(u))
+					this->AddEdge(v, u, weight);
+				else
+				{
+					cout << "invalid input";
+					exit(1);
+				}
+			}
+			else
+			{
+				cout << "invalid input";
+				exit(1);
+			}
 		}
 
 

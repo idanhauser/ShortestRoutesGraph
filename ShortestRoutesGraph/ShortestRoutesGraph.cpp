@@ -17,9 +17,17 @@ int main()
     int numberOfEdeges;
 	int s;
 	int t;
+	cin >> numberOfEdeges >> s >> t;
+	if (((1 > s)  || (numberOfEdeges < s)) ||
+		((1 > t) || (numberOfEdeges < t)) ||
+		(numberOfEdeges<1)) {
+		cout << "invalid input";
+		exit(1);
+	}
+	
 	AdjacencyList g_adjacencies;
 
-	cin >> numberOfEdeges >> s >> t;
+	
 
 	g_adjacencies = AdjacencyList(numberOfEdeges);
 
