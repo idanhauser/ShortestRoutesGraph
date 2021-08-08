@@ -5,12 +5,12 @@
 namespace srg {
 
 
-	class Graph {								// abstract class, has some basic stuff all graphs need to have
+	class Graph {							
 	protected:
 
-		int _length;							// amount of vertices in the graph
+		int _length;						
 
-		bool check_bounds(int num) const;		// check if vertex is in the allowed range
+		bool check_bounds(int num) const;		
 
 	public:
 
@@ -22,7 +22,7 @@ namespace srg {
 
 		int get_length() const { return _length; }
 
-		virtual bool IsAdjacent(int u, int v) const = 0;					// functions every graph needs to impliment
+		virtual bool IsAdjacent(int u, int v) const = 0;					
 		virtual List<Pair<int, float>> GetAdjList(int u) = 0;
 		virtual const List<Pair<int, float>> GetAdjList(int u) const = 0;
 		virtual void AddEdge(int u, int v, float c) = 0;

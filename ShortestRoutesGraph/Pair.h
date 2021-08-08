@@ -4,7 +4,7 @@
 namespace srg {
 
 	template<typename first, typename second>
-	class Pair {								// really simple template class to hold 2 variables together
+	class Pair {							
 	private:
 
 		first _first;

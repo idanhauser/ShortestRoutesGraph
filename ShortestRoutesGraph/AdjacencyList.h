@@ -4,12 +4,12 @@
 
 namespace srg {
 
-	class AdjacencyList : public Graph {			// graph implimented as list graph
+	class AdjacencyList : public Graph {		
 	private:
 
 		Pair<int, List<Pair<int, float>>>* _vertices;
 
-		void destroy();							// deletes the graph
+		void destroy();		
 
 	public:
 
@@ -24,16 +24,16 @@ namespace srg {
 
 		List<Pair<int, float>> GetAdjList(int u) override;
 		const List<Pair<int, float>> GetAdjList(int u) const override;
-		List<Pair<int, float>>& get_adjacent_by_ref(int u);				//for performance
+		List<Pair<int, float>>& get_adjacent_by_ref(int u);			
 
 		void AddEdge(int u, int v, float weight) override;
 		void RemoveEdge(int u, int v) override;
 		void makeEmpty() override;
 		void PrintGraph() const;
 		void ReadGraph();
-		//get vertices arr:
+		
 		Pair<int, List<Pair<int, float>>>* getVertices() const { return _vertices; } 
-		//get single vertic from vertices arr:
+		
 		Pair<int, List<Pair<int, float >>>& getVerticByRef(int num)
 		{
 			return _vertices[num-1];

@@ -15,10 +15,8 @@ namespace srg {
 	{
 		if (size > 0)
 		{
-			//already built in exception if new fails so no need to try
 			_vertices = new Pair<int, List<Pair<int, float>>>[size];
 
-			//init vertices numbers
 			for (int i = 0; i < size; i++)
 				_vertices[i].get_first() = i + 1;
 		}
@@ -73,7 +71,6 @@ namespace srg {
 
 	 List<Pair<int, float>> AdjacencyList::GetAdjList(int u)
 	{
-		// will create a new List because of return type
 		return get_adjacent_by_ref(u);
 	}
 
@@ -128,7 +125,10 @@ namespace srg {
 	void AdjacencyList::PrintGraph() const
 	{
 		for (int i = 0; i < _length; ++i)
-			std::cout << _vertices[i].get_first() << ": " << _vertices[i].get_second() << std::endl;
+			if (!_vertices[i].get_second().is_empty())
+			{
+				std::cout << _vertices[i].get_first() << ": " << _vertices[i].get_second() << std::endl;
+			}
 	}
 
 
@@ -145,10 +145,10 @@ namespace srg {
 
 	int* AdjacencyList::BFS(int s)
 	{
-		//AdjacencyList sGraph(s.get_first());
 		int V = this->get_length();
 		int* p = new int[V];
 		int* d = new int[V]; //distances arr
+
 		// Mark all the vertices as not visited
 		for (int i = 0; i < V; i++)
 		{
@@ -194,7 +194,6 @@ namespace srg {
 	void AdjacencyList::ReadGraph() 
 	{
 		int v, u;
-		//int input;
 		int weight = 0;
 		
 		while (!cin.eof())

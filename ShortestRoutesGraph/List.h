@@ -6,7 +6,7 @@
 namespace srg {
 
 	template<typename T>
-	class List {			// templated list, has iterators too! (although iterators are not working with the std functions...)
+	class List {			
 	private:
 
 		struct node {
@@ -23,7 +23,7 @@ namespace srg {
 		node* _head;
 		node* _tail;
 
-		void p_insert_to_head(node* node_to_insert)		// privet function for easier writing
+		void p_insert_to_head(node* node_to_insert)		
 		{
 			if (is_empty())
 				insert_to_empty(node_to_insert);
