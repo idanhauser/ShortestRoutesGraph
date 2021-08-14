@@ -3,6 +3,7 @@
 #include <exception>
 #include <stdexcept>
 
+//we implemented a STL List in CPP course
 namespace srg {
 
 	template<typename T>

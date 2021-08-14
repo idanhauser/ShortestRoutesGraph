@@ -1,7 +1,12 @@
 ﻿#include "Graph.h"
 
 namespace srg {
-
+	/// <summary>
+/// check if num is in bounds of vertices
+/// and return result as bool
+/// </summary>
+/// <param name="num">name of vertex</param>
+/// <returns>true for inbound, flase for out of bounds</returns>
 	bool Graph::check_bounds(int num) const
 	{
 		return num > 0 && num <= _length;

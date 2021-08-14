@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <iostream>
 
+//implemnted of an STD PAIR (we wrote it in cpp course)
 namespace srg {
 
 	template<typename first, typename second>

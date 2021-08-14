@@ -2,7 +2,7 @@
 using namespace std;
 namespace srg {
 
-
+	//dtor of the graph
 	void AdjacencyList::destroy()
 	{
 		delete[] _vertices;
@@ -10,7 +10,10 @@ namespace srg {
 		_length = 0;
 	}
 
-
+	/// <summary>
+	/// Ctor of the graph
+	/// </summary>
+	/// <param name="size"></param>
 	AdjacencyList::AdjacencyList(int size) : Graph(size), _vertices(nullptr)
 	{
 		if (size > 0)
@@ -22,6 +25,7 @@ namespace srg {
 		}
 	}
 
+	//copy ctor
 	AdjacencyList::AdjacencyList(const AdjacencyList& other) : AdjacencyList(0)
 	{
 		*this = other;
@@ -49,13 +53,22 @@ namespace srg {
 
 		return *this;
 	}
-
+	/// <summary>
+	/// make an empty graph
+	/// </summary>
+	/// <param name="n"></param>
+	/// <returns></returns>
 	AdjacencyList AdjacencyList::MakeEmptyGraph(int n)
 	{
 		return AdjacencyList(n);
 	}
 
-
+	/// <summary>
+	/// Returns yes if the arc (v, u) belongs to the graph, and otherwise not.
+	/// </summary>
+	/// <param name="u">the vertex u</param>
+	/// <param name="v">the vertex v</param>
+	/// <returns>true </returns>
 	bool AdjacencyList::IsAdjacent(int u, int v) const
 	{
 		bool found = false;
@@ -67,13 +80,23 @@ namespace srg {
 
 		return found;
 	}
-
-
+	/// <summary>
+	/// get vertex and return all his adjacency list
+	/// </summary>
+	/// <param name="u"> vertex to get his adjacency list</param>
+	/// <returns> list of adjacency list </returns>
 	 List<Pair<int, float>> AdjacencyList::GetAdjList(int u)
 	{
 		return get_adjacent_by_ref(u);
 	}
 
+
+	 /// <summary>
+	 /// const method
+	 /// gets vertex and returns all his adjacency list
+	 /// </summary>
+	 /// <param name="u"> vertex to get his adjacency list</param>
+	 /// <returns> const list of adjacency list </returns>
 
 	const List<Pair<int, float>> AdjacencyList::GetAdjList(int u) const
 	{
@@ -83,6 +106,11 @@ namespace srg {
 			return _vertices[u - 1].get_second();
 	}
 
+	/// <summary>
+	/// get vertex and return all his adjacency list by reference
+	/// </summary>
+	/// <param name="u"> vertex to get his adjacency list</param>
+	/// <returns> list of adjacency list </returns>
 
 	List<Pair<int, float>>& AdjacencyList::get_adjacent_by_ref(int u)
 	{
@@ -92,6 +120,12 @@ namespace srg {
 			return _vertices[u - 1].get_second();
 	}
 
+	/// <summary>
+/// get two vertices in the adjacency list and add an edge between them
+/// </summary>
+/// <param name="u"> source vertex </param>
+/// <param name="v"> destination vertex </param>
+/// <param name="weight"> edge weight </param>
 
 	void AdjacencyList::AddEdge(int u, int v, float weight)
 	{
@@ -99,7 +133,13 @@ namespace srg {
 			get_adjacent_by_ref(u).insert_to_tail(Pair<int, float>(v, weight));
 	}
 
+	/// <summary>
+/// get two vertices in the adjacency list and remove an edge between them
+/// </summary>
+/// <param name="u"> source vertex </param>
+/// <param name="v"> destination vertex </param>
 
+	
 	void AdjacencyList::RemoveEdge(int u, int v)
 	{
 		auto& adjacents = get_adjacent_by_ref(u);
@@ -114,14 +154,19 @@ namespace srg {
 		}
 	}
 
-
+	/// <summary>
+	/// create an empty adjacency list
+	/// </summary>
 	void AdjacencyList::makeEmpty()
 	{
 		for (int i = 0; i < _length; i++)
 			_vertices[i].get_second().make_empty();
 	}
 
-
+	/*printing the graph with edges*/
+			/// <summary>
+		/// print adjacency list
+		/// </summary>
 	void AdjacencyList::PrintGraph() const
 	{
 		for (int i = 0; i < _length; ++i)
@@ -131,6 +176,19 @@ namespace srg {
 			}
 	}
 
+	/// <summary>
+	/// Transpose of a directed graph G is another
+	/// directed graph on the same set of vertices with all of the edges reversed compared to the orientation
+	/// of the corresponding edges in G. That is, if G contains an edge (u, v) then the converse/transpose/reverse of G contains an edge (v, u) and vice versa.
+	//Given a graph(represented as adjacency list), we need to find another graph which is the
+	//transpose of the given graph.
+	/// </summary>
+	/// <param name="transposedGraph"></param>
+
+		/// get an empty AdjacencyList
+		/// return updated parameter as the transposed AdjacencyList
+		/// </summary>
+		/// <param name="transposedGraph">empty Adjacency List to update as the transposed source graph formation</param>
 
 	void AdjacencyList::transpose(AdjacencyList* transposedGraph)
 	{
@@ -142,7 +200,16 @@ namespace srg {
 	}
 
 
-
+	/*Breadth-first search (BFS) is an algorithm for searching a tree data structure for a node that satisfies a given property.
+	 *It starts at the tree root and explores all nodes at the present depth prior to moving on to the nodes at the next depth level.
+	 *Extra memory,
+	 *usually a queue, is needed to keep track of the child nodes that were encountered but not yet explored.*/
+	 /// <summary>
+ /// get an int vertex from the adjacency list
+ /// return array of distances from the parameter to each vertex
+ /// </summary>
+ /// <param name="s"> name of vertex</param>
+ /// <returns>distances array by name of vertices</returns>
 	int* AdjacencyList::BFS(int s)
 	{
 		int V = this->get_length();
@@ -191,6 +258,11 @@ namespace srg {
 		return d;
 	}
 
+	//A function that will build the graph from an input file, and allow reading
+	//Record in the structure defined above.
+	/// <summary>
+		/// get from user couples of vertices and create edge between them
+		/// </summary>
 	void AdjacencyList::ReadGraph() 
 	{
 		int v, u;
