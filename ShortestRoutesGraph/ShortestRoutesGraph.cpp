@@ -4,7 +4,6 @@
 #include <chrono>
 #include <iomanip>
 #include <iostream>
-#include <fstream>
 #include "AdjacencyList.h"
 using namespace srg;
 using namespace std;
