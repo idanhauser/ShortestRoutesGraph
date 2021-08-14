@@ -1,4 +1,5 @@
-﻿#pragma once
+﻿//graph class
+#pragma once
 #include "List.h"
 #include "Pair.h"
 

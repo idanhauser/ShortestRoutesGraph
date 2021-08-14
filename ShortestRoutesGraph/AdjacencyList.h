@@ -1,4 +1,6 @@
-﻿#include "Pair.h"
+﻿//summary:
+//Data structure of a graph using array of lists
+#include "Pair.h"
 #include "List.h"
 #include "Graph.h"
 

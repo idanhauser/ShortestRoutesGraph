@@ -1,5 +1,13 @@
-// ShortestRoutesGraph.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+//summary:
+//the program creates an adjacency list graph, using the data the user inputs,
+// and finds the shortest routes in a graph from the input of vertex s to the input of vertex t
+
+//gets: total amount of vertices
+//		vertex s
+//		vertex t
+//		couples of vertices to create edges
+
+//returns: the shortest routes in the input graph from vertex s to vertex t
 
 #include <chrono>
 #include <iomanip>
