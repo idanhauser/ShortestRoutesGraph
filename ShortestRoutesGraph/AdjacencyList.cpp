@@ -137,7 +137,7 @@ namespace srg {
 		for (int i = 1; i <= this->get_length(); i++)
 			for (auto j = this->get_adjacent_by_ref(i).begin(); j != this->get_adjacent_by_ref(i).end(); ++j)
 			{
-				transposedGraph->AddEdge(j->get_first(), i, -1);
+				transposedGraph->AddEdge(j->get_first(), i, 0);
 			}
 	}
 
